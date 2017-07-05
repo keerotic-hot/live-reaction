@@ -103,6 +103,50 @@
             height: 64px;
             border-radius: 10px;
         }
+        
+        #page-live {
+            padding: 50px 0;
+        }
+        
+        .reaction {
+            margin: 20px 0;
+        }
+        
+        .react {
+            width: 100px;
+            height: 100px;
+            background-size: contain !important;
+            margin: 0 auto;
+        }
+        
+        .react-like {
+            background: url(img/like.png) center center no-repeat;
+        }
+        
+        .react-love {
+            background: url(img/love.png) center center no-repeat;
+        }
+        
+        .react-haha {
+            background: url(img/haha.png) center center no-repeat;
+        }
+        
+        .react-wow {
+            background: url(img/wow.png) center center no-repeat;
+        }
+        
+        .react-angry {
+            background: url(img/angry.png) center center no-repeat;
+        }
+        
+        .react-sad {
+            background: url(img/sad.png) center center no-repeat;
+        }
+        
+        .score {
+            text-align: center;
+            font-size: 32px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -133,6 +177,32 @@
         </div>
     </div>
     <div class="container" id="page-live">
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-like"></div>
+                <div id="score-like" class="score">0</div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-love"></div>
+                <div id="score-love" class="score">0</div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-haha"></div>
+                <div id="score-haha" class="score">0</div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-wow"></div>
+                <div id="score-wow" class="score">0</div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-angry"></div>
+                <div id="score-angry" class="score">0</div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+                <div class="react react-sad"></div>
+                <div id="score-sad" class="score">0</div>
+            </div>
+        </div>
     </div>
     <script>
         // Initialize Firebase
@@ -274,12 +344,22 @@
                 function(r) {
                     console.log(r);
 
-                    $('#page-live').html(JSON.stringify(r));
+                    //$('#page-live').html(JSON.stringify(r));
+                    updateScore(r);
 
                     if ($('body').attr('class') == 'live') {
                         setTimeout(getReactions, 5000);
                     }
                 });
+        }
+
+        function updateScore(r) {
+            $('#score-like').html(r.like.summary.total_count);
+            $('#score-love').html(r.love.summary.total_count);
+            $('#score-haha').html(r.haha.summary.total_count);
+            $('#score-wow').html(r.wow.summary.total_count);
+            $('#score-angry').html(r.angry.summary.total_count);
+            $('#score-sad').html(r.sad.summary.total_count);
         }
 
         (function(d, s, id) {
