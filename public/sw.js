@@ -15,9 +15,8 @@ var filesToCache = [
     base + '/js/jquery-3.2.1.min.js',
     base + '/js/bootstrap.min.js',
     base + '/fonts/glyphicons-halflings-regular.woff2',
-    base + '/fonts/glyphicons-halflings-regular.woff2,
+    base + '/fonts/glyphicons-halflings-regular.woff',
     base + '/fonts/glyphicons-halflings-regular.ttf',
-
 ];
 
 self.addEventListener('install', e => {
