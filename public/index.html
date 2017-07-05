@@ -45,6 +45,29 @@
             text-align: center;
             font-size: 16pt;
         }
+        
+        #page-accounts,
+        #page-videos {
+            display: none;
+        }
+        
+        .accounts #page-accounts,
+        .videos #page-videos {
+            display: block
+        }
+        
+        .btn1 {
+            width: 50px;
+            height: 50px;
+            display: block;
+            border-right: solid 1px #ccc;
+            position: absolute;
+            left: 0;
+            top: 0;
+            line-height: 50px;
+            padding: 2px;
+            color: #fff !important;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -55,11 +78,19 @@
     <fb:login-button id="bt-login" scope="public_profile,email,pages_show_list" onlogin="checkLoginState();"></fb:login-button>
     <div class="container" id="page-accounts">
         <div class="row header bg-primary">
-            <div class="col-md-8 center-block">เลือกเพจ</div>
+            <div class="col-md-8 center-block">เลือก page</div>
         </div>
         <div class="row" id="accounts-list" style="margin:0"></div>
     </div>
     <div class="container" id="page-videos">
+        <div class="row header bg-primary">
+            <div class="col-md-12 col-sm-12 col-xs-12 center-block" id="title-page">เลือก live</div>
+            <div class="pull-left">
+                <a href="javascript:" onclick="choosePage();" class="btn1">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
     </div>
     <script>
         // Initialize Firebase
@@ -102,18 +133,23 @@
                 $('#bt-login').hide();
 
                 listAccounts(function() {
+
                     console.log(accounts);
                     for (var i = 0; i < accounts.length; i++) {
                         $('#accounts-list').append(
                             '<div class="col-md-3 col-sm-3 col-xs-4" style="background:rgba(255, 255, 255, 0.8);">' +
                             '<a class="page" href="javascript:" onclick="listLiveVideos(\'' +
                             accounts[i].id +
+                            '\',\'' +
+                            accounts[i].name +
                             '\');"><span class="icon" style="background:url(https://graph.facebook.com/' +
                             accounts[i].id +
                             '/picture) center center no-repeat"></span><span class="name">' +
                             accounts[i].name +
                             '</span></a></div>');
                     }
+
+                    $('body').attr('class', 'accounts');
                 });
             } else {
 
@@ -140,10 +176,16 @@
             });
         }
 
-        function listLiveVideos(id) {
+        function listLiveVideos(id, name) {
             FB.api(id + '/live_videos', function(r) {
                 console.log(r);
             });
+            $('#title-page').html(name);
+            $('body').attr('class', 'videos');
+        }
+
+        function choosePage() {
+            $('body').attr('class', 'accounts');
         }
 
         function getReactions(videoId) {
