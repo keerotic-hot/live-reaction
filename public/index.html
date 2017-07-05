@@ -206,6 +206,11 @@
     <div class="container" id="page-accounts">
         <div class="row header bg-primary">
             <div class="col-md-12 center-block">เลือก page</div>
+            <div class="pull-left">
+                <a href="javascript:" onclick="settings();" class="btn1">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </a>
+            </div>
         </div>
         <div class="row" id="accounts-list" style="margin:0 -5px"></div>
     </div>
@@ -332,6 +337,10 @@
             } else {
 
             }
+        }
+
+        function settings() {
+            alert('settings');
         }
 
         function listAccounts(callback, after) {
