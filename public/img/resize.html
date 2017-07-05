@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>icons</title>
+</head>
+
+<body>
+    <script>
+        var names = ['like', 'love', 'haha', 'wow', 'angry', 'sad'];
+
+        var canvas, ctx;
+
+        function createImage(srcImage, name) {
+            var size = 128;
+            console.log(size);
+            canvas.width = canvas.height = size;
+            ctx.drawImage(srcImage, 0, 0, size, size);
+
+            var newImage = document.createElement('img');
+            newImage.alt = name + '.png';
+            newImage.src = canvas.toDataURL();
+
+            var a = document.createElement('a');
+            a.download = name + '.png';
+            a.href = newImage.src;
+            a.title = name + '.png';
+
+            a.appendChild(newImage);
+            document.body.appendChild(a);
+        }
+
+        (function() {
+            canvas = document.createElement('canvas');
+            ctx = canvas.getContext('2d');
+            for (var i = 0; i < names.length; i++) {
+                let img = document.createElement('img');
+                let name = names[i];
+                console.log(name);
+                img.onload = function() {
+                    console.log('loaded');
+                    createImage(img, name);
+                }
+                img.src = '_' + name + '.png';
+            }
+
+        })()
+    </script>
+</body>
+
+</html>
