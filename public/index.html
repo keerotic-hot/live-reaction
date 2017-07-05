@@ -5,10 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="manifest" href="manifest.json" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#333" />
+    <meta name="apple-mobile-web-app-title" content="Live Reaction" />
+    <link rel="apple-touch-icon" href="img/icons/152.png" />
+    <meta name="msapplication-TileImage" content="img/icons/144.png" />
+    <meta name="msapplication-TileColor" content="#333" />
+    <meta name="theme-color" content="#333">
     <title>Live - Reaction</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+        
         a.page {
             width: 100%;
             height: 100%;
@@ -84,12 +103,12 @@
         
         #list-live-videos li {
             opacity: 0.3;
-            pointer-events: none;
+            /*pointer-events: none;*/
         }
         
         #list-live-videos li.VOD {
             opacity: 0.3;
-            pointer-events: none;
+            /*pointer-events: none;*/
         }
         
         #list-live-videos li.LIVE {
@@ -105,18 +124,30 @@
         }
         
         #page-live {
-            padding: 50px 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
         
         .reaction {
             margin: 20px 0;
+            background: url('https://scontent.fbkk2-3.fna.fbcdn.net/v/t1.0-9/19598546_10154976497288621_2283588667333760991_n.jpg?oh=3ef26e05f3248846896786e770a29997&oe=59D1F00D') center center no-repeat;
+            background-size: cover;
+            height: 50%;
+            margin: 0;
+            padding: 0;
+            border: solid 1px #fff;
         }
         
         .react {
-            width: 100px;
-            height: 100px;
+            width: 64px;
+            height: 64px;
             background-size: contain !important;
-            margin: 0 auto;
+            position: absolute;
+            left: 2px;
+            bottom: 2px;
+            z-index: 99;
         }
         
         .react-like {
@@ -145,19 +176,34 @@
         
         .score {
             text-align: center;
-            font-size: 32px;
+            font-size: 26px;
+            background: rgba(255, 255, 255, 0.8);
+            position: absolute;
+            bottom: 8px;
+            left: 16px;
+            border-radius: 18px;
+            height: 36px;
+            width: 90%;
+            z-index: 88;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
 </head>
 
 <body>
-    <fb:login-button id="bt-login" scope="public_profile,email,pages_show_list" onlogin="checkLoginState();"></fb:login-button>
+    <div class="container" id="bt-login">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Live - Reaction</h1>
+                <fb:login-button scope="public_profile,email,pages_show_list" onlogin="checkLoginState();"></fb:login-button>
+            </div>
+        </div>
+    </div>
     <div class="container" id="page-accounts">
         <div class="row header bg-primary">
-            <div class="col-md-8 center-block">เลือก page</div>
+            <div class="col-md-12 center-block">เลือก page</div>
         </div>
         <div class="row" id="accounts-list" style="margin:0 -5px"></div>
     </div>
@@ -177,7 +223,7 @@
         </div>
     </div>
     <div class="container" id="page-live">
-        <div class="row">
+        <div class="row" style="height:100%;margin:0;">
             <div class="col-md-4 col-sm-4 col-xs-4 reaction">
                 <div class="react react-like"></div>
                 <div id="score-like" class="score">0</div>
@@ -372,6 +418,15 @@
             js.src = "//connect.facebook.net/en_US/sdk.js";
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker
+                .register('sw.js')
+                .then(function() {
+                    console.log("Service Worker Registered");
+                });
+        }
     </script>
 </body>
 
