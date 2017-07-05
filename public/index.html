@@ -294,6 +294,8 @@
             });
         }
 
+        var t1 = 0;
+
         function statusChangeCallback(r) {
             console.log(r);
             //
@@ -320,10 +322,11 @@
                     $('body').attr('class', 'accounts');
 
                     $('#page-live').click(function() {
-                        $('#bar-reactions').fadeIn(500);
-                        setTimeout(function() {
-                            $('#bar-reactions').fadeOut(500);
-                        }, 3000);
+                        $('#bar-reactions').fadeIn(300);
+                        clearTimeout(t1);
+                        t1 = setTimeout(function() {
+                            $('#bar-reactions').fadeOut(300);
+                        }, 2000);
                     });
                 });
             } else {
