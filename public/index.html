@@ -251,6 +251,14 @@
                 <div id="score-sad" class="score">0</div>
             </div>
         </div>
+        <div class="row header bg-primary" id="bar-reactions" style="position:absolute;top:0;left:15px;width:100%;display:none;">
+            <div class="col-md-12 col-sm-12 col-xs-12 center-block" id="title-live">...</div>
+            <div class="pull-left">
+                <a href="javascript:" onclick="chooseVideo();" class="btn1">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
     </div>
     <script>
         // Initialize Firebase
@@ -310,6 +318,13 @@
                     }
 
                     $('body').attr('class', 'accounts');
+
+                    $('#page-live').click(function() {
+                        $('#bar-reactions').fadeIn(500);
+                        setTimeout(function() {
+                            $('#bar-reactions').fadeOut(500);
+                        }, 3000);
+                    });
                 });
             } else {
 
@@ -379,6 +394,10 @@
             liveID = id;
 
             getReactions();
+        }
+
+        function chooseVideo() {
+            $('body').attr('class', 'videos');
         }
 
         function getReactions() {
