@@ -47,12 +47,14 @@
         }
         
         #page-accounts,
-        #page-videos {
+        #page-videos,
+        #page-live {
             display: none;
         }
         
         .accounts #page-accounts,
-        .videos #page-videos {
+        .videos #page-videos,
+        .live #page-live {
             display: block
         }
         
@@ -67,6 +69,33 @@
             line-height: 50px;
             padding: 2px;
             color: #fff !important;
+        }
+        
+        #title-page {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0 60px;
+        }
+        
+        #list-live-videos {
+            margin-top: 15px;
+        }
+        
+        #list-live-videos li {
+            margin-top: 15px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        #list-live-videos li.VOD {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        
+        #list-live-videos li.LIVE {
+            opacity: 1;
+            pointer-events: all;
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -91,6 +120,13 @@
                 </a>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <ul id="list-live-videos" class="list-group"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="page-live">
     </div>
     <script>
         // Initialize Firebase
@@ -177,8 +213,17 @@
         }
 
         function listLiveVideos(id, name) {
-            FB.api(id + '/live_videos', function(r) {
+            $('#list-live-videos').html('');
+            FB.api(id + '/live_videos?fields=creation_time,status,description,title,video', function(r) {
                 console.log(r);
+                for (var i = 0; i < r.data.length; i++) {
+                    $('#list-live-videos').append('<li class="list-group-item ' + r.data[i].status + '" onclick="viewLiveReaction(\'' +
+                        r.data[i].id +
+                        '\')">' +
+                        (r.data[i].title || '') + ' : ' +
+                        (r.data[i].description || '') + ' (' + r.data[i].status + ')<br/>' +
+                        r.data[i].creation_time + '</li>');
+                }
             });
             $('#title-page').html(name);
             $('body').attr('class', 'videos');
@@ -186,10 +231,22 @@
 
         function choosePage() {
             $('body').attr('class', 'accounts');
+            $('#title-page').html('เลือก live');
+            $('#list-live-videos').html('');
         }
 
-        function getReactions(videoId) {
-            FB.api(videoId + '?fields=' +
+        var liveID;
+
+        function viewLiveReaction(id) {
+            $('body').attr('class', 'live');
+
+            liveID = id;
+
+            getReactions();
+        }
+
+        function getReactions() {
+            FB.api(liveID + '?fields=' +
                 'reactions.type(LIKE).limit(0).summary(total_count).as(like),' +
                 'reactions.type(LOVE).limit(0).summary(total_count).as(love),' +
                 'reactions.type(HAHA).limit(0).summary(total_count).as(haha),' +
@@ -198,6 +255,12 @@
                 'reactions.type(SAD).limit(0).summary(total_count).as(sad)',
                 function(r) {
                     console.log(r);
+
+                    $('#page-live').html(JSON.stringify(r));
+
+                    if ($('body').attr('class') == 'live') {
+                        setTimeout(getReactions, 5000);
+                    }
                 });
         }
 
