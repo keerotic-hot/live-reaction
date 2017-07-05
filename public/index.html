@@ -58,10 +58,15 @@
             });
             FB.AppEvents.logPageView();
 
+            checkLoginState();
+        };
+
+        function checkLoginState() {
+
             FB.getLoginStatus(function(r) {
                 statusChangeCallback(r);
             });
-        };
+        }
 
         function statusChangeCallback(r) {
             console.log(r);
@@ -92,7 +97,7 @@
             if (after != undefined)
                 withAfter = '&after=' + after;
 
-            FB.api('me/accounts?limit=10' + withAfter, function(r) {
+            FB.api('me/accounts?limit=20' + withAfter, function(r) {
                 console.log(r);
                 accounts.push.apply(accounts, r.data);
 
