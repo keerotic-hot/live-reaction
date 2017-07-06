@@ -234,7 +234,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h1>Live - Reaction</h1>
-                <fb:login-button scope="public_profile,email,pages_show_list" onlogin="checkLoginState();"></fb:login-button>
+                <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
             </div>
         </div>
     </div>
@@ -391,6 +391,36 @@
     </script>
     <script>
         var accounts = [];
+        var pages = JSON.parse(localStorage.pages || '{}');
+
+        function loadPages() {
+            $('#accounts-list').html('');
+            for (var i in pages) {
+
+                $('#accounts-list').append(
+                    '<div class="col-md-3 col-sm-3 col-xs-4" style="background:rgba(255, 255, 255, 0.8);">' +
+                    '<a class="page" href="javascript:" onclick="listLiveVideos(\'' +
+                    pages[i].id +
+                    '\',\'' +
+                    pages[i].name +
+                    '\');"><span class="icon" style="background:url(' +
+                    pages[i].picture +
+                    ') center center no-repeat"></span><span class="name">' +
+                    pages[i].name +
+                    '</span></a></div>');
+            }
+        }
+
+        function addPage(id, name, picture) {
+            pages[id] = {
+                id: id,
+                name: name,
+                picture: picture
+            };
+            localStorage.pages = JSON.stringify(pages);
+            choosePage();
+            loadPages();
+        }
 
         window.fbAsyncInit = function() {
             FB.init({
@@ -458,6 +488,7 @@
         function addingAccount() {
             $('body').attr('class', 'adding');
             $('#list-pages').html('');
+            $('#search-name').val('');
         }
 
         function loading() {
@@ -490,7 +521,7 @@
 
                     $('#list-pages').append(
                         '<li class="list-group-item" onclick="addPage(\'' +
-                        r.data[i].id +
+                        r.data[i].id + '\',\'' + r.data[i].name + '\',\'' + r.data[i].picture.data.url + '\',\'' +
                         '\')"><div class="media" ><div class="media-left"><div class="media-object" style="background:url(' +
                         r.data[i].picture.data.url +
                         ') center center no-repeat;"></div></div>' +
@@ -498,10 +529,6 @@
                         (r.data[i].name || '') + ' (' + r.data[i].id + ')</h4></div></div ></li>');
                 }
             });
-        }
-
-        function addPage(id) {
-
         }
 
         function listAccounts(callback, after) {
@@ -612,6 +639,8 @@
 
                 //
 
+                loading();
+
                 EXIF.getData(file, function() {
                     console.log('exif');
                     var orientation = EXIF.getTag(this, "Orientation");
@@ -663,17 +692,23 @@
 
                                 console.log($(event.target));
                                 localStorage[$(event.target).data('reactname')] = canvas.toDataURL();
-                                $('.' + $(event.target).data('reactname')).css('background-image', 'url(' + canvas.toDataURL() + ')')
+                                $('.' + $(event.target).data('reactname')).css('background-image', 'url(' + canvas.toDataURL() + ')');
+
+                                loaded();
                             }
                             img.src = fr.result;
                         }
                         fr.readAsDataURL(file);
+                    } else {
+                        loaded();
                     }
                 });
             }
         }
 
         $(function() {
+            loadPages();
+
             if (localStorage.imgLike) {
                 $('.imgLike').css('background-image', 'url(' + localStorage.imgLike + ')');
             }
