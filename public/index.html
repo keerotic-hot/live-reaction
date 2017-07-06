@@ -67,13 +67,15 @@
         
         #page-accounts,
         #page-videos,
-        #page-live {
+        #page-live,
+        #page-settings {
             display: none;
         }
         
         .accounts #page-accounts,
         .videos #page-videos,
-        .live #page-live {
+        .live #page-live,
+        .settings #page-settings {
             display: block
         }
         
@@ -188,6 +190,27 @@
             padding-left: 26px;
             box-sizing: border-box;
         }
+        
+        .browse {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(255, 0, 0, 0.1);
+            opacity: 0.01;
+        }
+        
+        .change-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            pointer-events: none;
+        }
     </style>
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -195,7 +218,7 @@
 </head>
 
 <body>
-    <div class="container" id="bt-login">
+    <div class="container" id="page-login">
         <div class="row">
             <div class="col-md-12">
                 <h1>Live - Reaction</h1>
@@ -231,27 +254,27 @@
     </div>
     <div class="container" id="page-live">
         <div class="row" style="height:100%;margin:0;">
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgLike">
                 <div class="react react-like"></div>
                 <div id="score-like" class="score">0</div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgLove">
                 <div class="react react-love"></div>
                 <div id="score-love" class="score">0</div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgHaha">
                 <div class="react react-haha"></div>
                 <div id="score-haha" class="score">0</div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgWow">
                 <div class="react react-wow"></div>
                 <div id="score-wow" class="score">0</div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgAngry">
                 <div class="react react-angry"></div>
                 <div id="score-angry" class="score">0</div>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-4 reaction">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgSad">
                 <div class="react react-sad"></div>
                 <div id="score-sad" class="score">0</div>
             </div>
@@ -260,6 +283,48 @@
             <div class="col-md-12 col-sm-12 col-xs-12 center-block" id="title-live">...</div>
             <div class="pull-left">
                 <a href="javascript:" onclick="chooseVideo();" class="btn1">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="page-settings" style="padding:0">
+        <div class="row" style="height:100%;margin:0;">
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgLike">
+                <div class="react react-like"></div>
+                <input type="file" class="browse" id="change-like" data-reactname="imgLike" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgLove">
+                <div class="react react-love"></div>
+                <input type="file" class="browse" id="change-love" data-reactname="imgLove" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgHaha">
+                <div class="react react-haha"></div>
+                <input type="file" class="browse" id="change-haha" data-reactname="imgHaha" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgWow">
+                <div class="react react-wow"></div>
+                <input type="file" class="browse" id="change-wow" data-reactname="imgWow" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgAngry">
+                <div class="react react-angry"></div>
+                <input type="file" class="browse" id="change-angry" data-reactname="imgAngry" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 reaction imgSad">
+                <div class="react react-sad"></div>
+                <input type="file" class="browse" id="change-sad" data-reactname="imgSad" onchange="changeImage(event);" />
+                <span class="change-text">Change Picture</span>
+            </div>
+        </div>
+        <div class="row header bg-primary" id="bar-reactions" style="position:absolute;top:0;left:15px;width:100%;">
+            <div class="col-md-12 col-sm-12 col-xs-12 center-block" id="title-live">Settings</div>
+            <div class="pull-left">
+                <a href="javascript:" onclick="choosePage();" class="btn1">
                     <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
                 </a>
             </div>
@@ -305,7 +370,7 @@
             console.log(r);
             //
             if (r.status === 'connected') {
-                $('#bt-login').hide();
+                $('#page-login').hide();
 
                 listAccounts(function() {
 
@@ -340,7 +405,7 @@
         }
 
         function settings() {
-            alert('settings');
+            $('body').attr('class', 'settings');
         }
 
         function listAccounts(callback, after) {
@@ -440,6 +505,69 @@
             $('#score-angry').html(r.angry.summary.total_count);
             $('#score-sad').html(r.sad.summary.total_count);
         }
+
+        function changeImage(event) {
+            console.log(event.target);
+
+
+            if (event.target.files.length > 0) {
+                var file = event.target.files[0];
+                console.log(file);
+
+                if (FileReader) {
+                    var fr = new FileReader();
+                    fr.onload = function() {
+
+                        var img = document.createElement('img');
+                        img.onload = function() {
+
+                            var canvas = document.createElement('canvas');
+                            var ctx = canvas.getContext('2d');
+
+                            var r = img.width / img.height;
+                            var s = 400 / img.width;
+                            if (r > 1) {
+                                s = 400 / img.height;
+                            }
+
+                            canvas.width = Math.floor(img.width * s);
+                            canvas.height = Math.floor(img.height * s);
+
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                            console.log($(event.target));
+                            localStorage[$(event.target).data('reactname')] = canvas.toDataURL();
+                            $('.' + $(event.target).data('reactname')).css('background-image', 'url(' + canvas.toDataURL() + ')')
+                        }
+                        img.src = fr.result;
+                    }
+                    fr.readAsDataURL(file);
+                }
+
+            }
+
+        }
+
+        $(function() {
+            if (localStorage.imgLike) {
+                $('.imgLike').css('background-image', 'url(' + localStorage.imgLike + ')');
+            }
+            if (localStorage.imgLove) {
+                $('.imgLove').css('background-image', 'url(' + localStorage.imgLove + ')');
+            }
+            if (localStorage.imgHaha) {
+                $('.imgHaha').css('background-image', 'url(' + localStorage.imgHaha + ')');
+            }
+            if (localStorage.imgWow) {
+                $('.imgWow').css('background-image', 'url(' + localStorage.imgWow + ')');
+            }
+            if (localStorage.imgAngry) {
+                $('.imgAngry').css('background-image', 'url(' + localStorage.imgAngry + ')');
+            }
+            if (localStorage.imgSad) {
+                $('.imgSad').css('background-image', 'url(' + localStorage.imgSad + ')');
+            }
+        });
 
         (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
