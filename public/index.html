@@ -646,21 +646,7 @@
                     var orientation = EXIF.getTag(this, "Orientation");
                     var info = document.getElementById("title-settings");
                     var rotation = 0;
-                    switch (orientation) {
-                        case 6:
-                            rotation = 90;
-                            break;
-                        case 3:
-                            rotation = 180;
-                            break;
-                        case 8:
-                            rotation = 270;
-                            break;
-                        case 1:
-                        default:
-                            rotation = 0;
-                            break;
-                    }
+
 
                     //info.innerHTML = orientation + ',' + , rotation;
                     //console.log(orientation, rotation);
@@ -681,13 +667,34 @@
                                     s = 400 / img.height;
                                 }
 
-                                canvas.width = Math.floor(img.width * s);
-                                canvas.height = Math.floor(img.height * s);
+                                var w = canvas.width = Math.floor(img.width * s);
+                                var h = canvas.height = Math.floor(img.height * s);
+
+                                switch (orientation) {
+                                    case 6:
+                                        rotation = 90;
+                                        canvas.width = Math.floor(img.height * s);
+                                        canvas.height = Math.floor(img.width * s);
+                                        break;
+                                    case 8:
+                                        rotation = 270;
+                                        canvas.width = Math.floor(img.height * s);
+                                        canvas.height = Math.floor(img.width * s);
+                                        break;
+                                    case 3:
+                                        rotation = 180;
+                                        break;
+                                    case 1:
+                                    default:
+                                        rotation = 0;
+                                        break;
+                                }
+
 
                                 ctx.save();
                                 ctx.translate(canvas.width / 2, canvas.height / 2);
                                 ctx.rotate(rotation * Math.PI / 180);
-                                ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+                                ctx.drawImage(img, -w / 2, -h / 2, w, h);
                                 ctx.restore();
 
                                 console.log($(event.target));
