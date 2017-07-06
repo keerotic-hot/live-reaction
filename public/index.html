@@ -68,14 +68,16 @@
         #page-accounts,
         #page-videos,
         #page-live,
-        #page-settings {
+        #page-settings,
+        #page-adding {
             display: none;
         }
         
         .accounts #page-accounts,
         .videos #page-videos,
         .live #page-live,
-        .settings #page-settings {
+        .settings #page-settings,
+        .adding #page-adding {
             display: block
         }
         
@@ -90,6 +92,13 @@
             line-height: 50px;
             padding: 2px;
             color: #fff !important;
+        }
+        
+        .pull-right .btn1 {
+            left: auto;
+            right: 0;
+            border: none;
+            border-left: solid 1px #ccc;
         }
         
         #title-page {
@@ -237,8 +246,23 @@
                     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a>
             </div>
+            <div class="pull-right">
+                <a href="javascript:" onclick="addingAccount();" class="btn1">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                </a>
+            </div>
         </div>
         <div class="row" id="accounts-list" style="margin:0 -5px"></div>
+    </div>
+    <div class="container" id="page-adding">
+        <div class="row header bg-primary">
+            <div class="col-md-12 col-sm-12 col-xs-12 center-block" id="title-adding">เพิ่ม page</div>
+            <div class="pull-left">
+                <a href="javascript:" onclick="choosePage();" class="btn1">
+                    <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
     </div>
     <div class="container" id="page-videos">
         <div class="row header bg-primary">
@@ -409,6 +433,10 @@
 
         function settings() {
             $('body').attr('class', 'settings');
+        }
+
+        function addingAccount() {
+            $('body').attr('class', 'adding');
         }
 
         function listAccounts(callback, after) {
